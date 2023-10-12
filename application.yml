@@ -1,0 +1,235 @@
+swagger:
+  application-url: http://localhost:${server.port}
+  title: ${spring.application.name}
+  version: 0.1.0
+  application-description: Documentation about candidate service API endpoints  
+  
+spring:
+  application:
+    name: Candidate-Service
+  profiles:
+    active:
+    - local
+  servlet:
+     multipart:
+        max-file-size: 2MB
+        max-request-size: 2MB
+    
+cron:
+   expression:
+      lockAtMost: 15m
+      scheduledTaskAt: '@midnight'
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: [ "health","prometheus","metrics" ]
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+      
+
+---
+
+spring:   
+  config:
+    activate:
+      on-profile: local
+      
+  data:
+    mongodb:
+      database: candidatedb
+      auto-index-creation: true
+      uri: mongodb+srv://test:test@cluster0.0ftm8q2.mongodb.net/?retryWrites=true&w=majority #mongodb://127.0.0.1:27017
+  
+  rabbitmq:
+    addresses: localhost:5672 
+    listener:
+      simple:
+        default-requeue-rejected: false
+        
+logging:
+  level[org.mongodb.driver]: WARN
+  level[org.springframework.data.mongodb]: DEBUG
+ 
+comms:
+   api:
+     x-api-key: 630eff62c08ba870e88cf7c0 
+     amplify-service:
+        base-uri: http://localhost:3001
+        x-api-key: 630eff62c08ba870e88cf7c0
+
+cors:
+  allowedOrigins: '*'
+  
+management:
+  server:
+    port: ${server.port}
+
+---
+  
+spring:   
+  config:
+    activate:
+      on-profile: dev
+      
+  data:
+    mongodb:
+      database: candidatedb
+      auto-index-creation: true
+      uri: mongodb+srv://amplify:7LFjfN5CCmMnehu@profile-ingestor-tests.19imquj.mongodb.net/{spring.data.mongodb.database}?retryWrites=true&w=majority
+  
+  rabbitmq:
+    addresses: amqp://dqxlvxzm:3tGAXuckAR0aBA-IsrXQhFGYPU9gZSE9@whale.rmq.cloudamqp.com/dqxlvxzm 
+    listener:
+      simple:
+        default-requeue-rejected: false
+ 
+logging:
+  level[org.mongodb.driver]: WARN
+   
+comms:
+   api:
+     x-api-key: 630eff62c08ba870e88cf7c0 
+     amplify-service:
+        base-uri: http://amplify-development.bdt.vops.starcircle.com/
+        x-api-key: 630eff62c08ba870e88cf7c0
+
+cors:
+  allowedOrigins: '*'
+      
+---
+  
+spring:   
+  config:
+    activate:
+      on-profile: automation-tests
+      
+  data:
+    mongodb:
+      database: candidatedb-automation-tests
+      auto-index-creation: true
+      uri: mongodb+srv://amplify:7LFjfN5CCmMnehu@profile-ingestor-tests.19imquj.mongodb.net/{spring.data.mongodb.database}?retryWrites=true&w=majority
+  
+  rabbitmq:
+    addresses: amqps://jlayatyk:aDy1DUdYDsOX-BpD9seN3r-6wS8PuUNZ@stingray.rmq.cloudamqp.com/jlayatyk
+    listener:
+      simple:
+        default-requeue-rejected: false
+ 
+logging:
+  level[org.mongodb.driver]: WARN
+
+comms:
+   api:
+     x-api-key: 630eff62c08ba870e88cf7c0 
+     amplify-service:
+        base-uri: http://amplify-feature-automation-tests.bdt.vops.starcircle.com/
+        x-api-key: 630eff62c08ba870e88cf7c0
+
+cors:
+  allowedOrigins: '*'
+         
+---
+  
+spring:   
+  config:
+    activate:
+      on-profile: ui
+      
+  data:
+    mongodb:
+      database: candidatedb-ui
+      auto-index-creation: true
+      uri: mongodb+srv://amplify:7LFjfN5CCmMnehu@profile-ingestor-tests.19imquj.mongodb.net/{spring.data.mongodb.database}?retryWrites=true&w=majority
+  
+  rabbitmq:
+    addresses: amqps://fyxsubcy:MJmvRiAzhAE4TOr4ZKSqUWaxcXYnFxql@whale.rmq.cloudamqp.com/fyxsubcy
+    listener:
+      simple:
+        default-requeue-rejected: false
+ 
+logging:
+  level[org.mongodb.driver]: WARN
+  
+comms:
+   api:
+     x-api-key: 630eff62c08ba870e88cf7c0 
+     amplify-service:
+        base-uri: http://amplify-feature-ui.bdt.vops.starcircle.com/
+        x-api-key: 630eff62c08ba870e88cf7c0
+
+cors:
+  allowedOrigins: '*'
+
+---
+  
+spring:   
+  config:
+    activate:
+      on-profile: uat
+      
+  data:
+    mongodb:
+      database: candidatedb-uat
+      auto-index-creation: true
+      uri: mongodb+srv://amplify:7LFjfN5CCmMnehu@profile-ingestor-tests.19imquj.mongodb.net/{spring.data.mongodb.database}?retryWrites=true&w=majority
+  
+  rabbitmq:
+    addresses: amqps://toppmfel:GOR_dTkSzfMlJwotw3Ke2VusKeR2KL0k@whale.rmq.cloudamqp.com/toppmfel
+    listener:
+      simple:
+        default-requeue-rejected: false
+ 
+logging:
+  level[org.mongodb.driver]: WARN
+  
+comms:
+   api:
+     x-api-key: 630eff62c08ba870e88cf7c0 
+     amplify-service:
+        base-uri: http://amplify-feature-uat.bdt.vops.starcircle.com/
+        x-api-key: 630eff62c08ba870e88cf7c0
+
+cors:
+  allowedOrigins: '*'
+  
+---
+  
+spring:   
+  config:
+    activate:
+      on-profile: preprod
+      
+  data:
+    mongodb:
+      database: candidatedb-preprod
+      auto-index-creation: true
+      uri: mongodb+srv://amplify:7LFjfN5CCmMnehu@profile-ingestor-tests.19imquj.mongodb.net/{spring.data.mongodb.database}?retryWrites=true&w=majority
+  
+  rabbitmq:
+    addresses: amqps://qidyofcq:lXtWOX_UYsa-gmcEvc3-AZONtHDFXolh@whale.rmq.cloudamqp.com/qidyofcq
+    listener:
+      simple:
+        default-requeue-rejected: false
+ 
+logging:
+  level[org.mongodb.driver]: WARN
+  
+comms:
+   api:
+     x-api-key: 630eff62c08ba870e88cf7c0 
+     amplify-service:
+        base-uri: http://amplify-feature-preprod.bdt.vops.starcircle.com/
+        x-api-key: 630eff62c08ba870e88cf7c0
+
+cors:
+  allowedOrigins: '*'
